@@ -20,7 +20,7 @@ namespace SdProject.Apis.Cqrs.CommandHandlers.User.Commands.Handlers
 
         public Task<IEnumerable<BookEntity>> Handle(SearchBookByUserQuery request, CancellationToken cancellation)
         {
-            return _bookService.FindBooByUserkAsync(request, cancellation);
+            return _bookService.FindBookByUserAsync(request, cancellation);
         }
     }
 }

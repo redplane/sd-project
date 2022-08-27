@@ -27,6 +27,18 @@ namespace SdProject.Apis.Controllers
         }
 
         /// <summary>
+        /// User Search 
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        [HttpPost("find")]
+        public async Task<IActionResult> FindUserByBookAsync([FromBody] SearchUserByBookQuery command)
+        {
+            var response = await _mediator.Send(command);
+            return Ok(response);
+        }
+
+        /// <summary>
         /// Add User
         /// </summary>
         /// <param name="command"></param>

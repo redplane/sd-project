@@ -12,6 +12,7 @@ namespace SdProject.Businesses.Services.Abstractions
     public interface IUserService
     {
         Task<IEnumerable<UserEntity>> SearchUserAsync(SearchUserQuery request, CancellationToken cancellation);
+        Task<IEnumerable<UserEntity>> FindUserByBookAsync(SearchUserByBookQuery request, CancellationToken cancellation);
         Task<UserEntity> AddUserAsync(AddUserCommand request, CancellationToken cancellation);
         Task<UserEntity> UpdateUserAsync(UpdateUserCommand request, CancellationToken cancellation);
     }

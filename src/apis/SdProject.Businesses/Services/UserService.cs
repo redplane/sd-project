@@ -33,6 +33,19 @@ namespace SdProject.Businesses.Services
             return users.ToList();
         }
 
+        public async Task<IEnumerable<UserEntity>> FindUserByBookAsync(SearchUserByBookQuery request, CancellationToken cancellation)
+        {
+            return (from ub in _context.UserBookEntities
+                    join u in _context.User on ub.BookId equals u.Id
+                    where ub.BookId == request.BookId
+                    select new UserEntity
+                    {
+                        Id = u.Id,
+                        FirstName = u.FirstName,
+                        LastName = u.LastName,
+                        Birthdate = u.Birthdate
+                    }).ToList();
+        }
         public async Task<UserEntity> AddUserAsync(AddUserCommand request, CancellationToken cancellation)
         {
             UserEntity entity = new UserEntity { FirstName = request.FirstName, LastName = request.LastName, Birthdate = request.Birthdate };

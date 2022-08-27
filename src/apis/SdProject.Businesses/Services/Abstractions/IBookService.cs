@@ -12,7 +12,7 @@ namespace SdProject.Businesses.Services.Abstractions
     public interface IBookService
     {
         Task<IEnumerable<BookEntity>> SearchBookAsync(SearchBookQuery request, CancellationToken cancellation);
-        Task<IEnumerable<BookEntity>> FindBooByUserkAsync(SearchBookByUserQuery request, CancellationToken cancellation);
+        Task<IEnumerable<BookEntity>> FindBookByUserAsync(SearchBookByUserQuery request, CancellationToken cancellation);
         Task<BookEntity> AddBookAsync(AddBookCommand request, CancellationToken cancellation);
         Task<BookEntity> UpdateBookAsync(UpdateBookCommand request, CancellationToken cancellation);
     }
