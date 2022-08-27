@@ -1,0 +1,7 @@
+/.vs
+/src/apis/SdProject.Apis/bin
+/src/apis/SdProject.Apis/obj
+/src/apis/SdProject.Businesses/bin
+/src/apis/SdProject.Businesses/obj
+/src/apis/SdProject.Cores/bin
+/src/apis/SdProject.Cores/obj
