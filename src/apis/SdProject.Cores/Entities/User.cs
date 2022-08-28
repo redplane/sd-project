@@ -3,14 +3,14 @@ using System.Collections.Generic;
 
 namespace Core.Entities
 {
-    public class UserEntity
+    public class User
     {
         public int id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public DateTime Birthdate { get; set; }
-        public ICollection<UserBookEntity> UserBooks { get; set; }
-        public UserEntity()
+        public ICollection<UserBook> UserBooks { get; set; }
+        public User()
         {
         }
     }

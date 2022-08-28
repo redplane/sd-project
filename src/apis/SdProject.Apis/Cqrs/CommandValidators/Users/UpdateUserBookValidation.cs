@@ -3,7 +3,7 @@ using FluentValidation;
 using SdProject.Apis.Constants;
 using SdProject.Businesses.Models.Users;
 
-namespace SdProject.Apis.Cqrs.CommandValidators
+namespace SdProject.Apis.Cqrs.CommandValidators.Users
 {
     public class UpdateUserBookValidation : AbstractValidator<UpdateUserBookCommand>
     {

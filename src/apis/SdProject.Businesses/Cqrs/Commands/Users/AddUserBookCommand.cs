@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace SdProject.Businesses.Models.Users
 {
-    public class AddUserBookCommand : IRequest<UserBookEntity>
+    public class AddUserBookCommand : IRequest<UserBook>
     {
         public int UserId { get; set; }
         public int BookId { get; set; }

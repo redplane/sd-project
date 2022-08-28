@@ -5,7 +5,7 @@ using MediatR;
 
 namespace SdProject.Businesses.Models.Users
 {
-    public class UpdateUserBookCommand : IRequest<UserBookEntity>
+    public class UpdateUserBookCommand : IRequest<UserBook>
     {
         public int Id { get; set; }
         public int UserId { get; set; }

@@ -46,7 +46,7 @@ namespace SdProject.Apis.Controllers
         [HttpPost]
         public async Task<IActionResult> AddUserAsync([FromBody] AddUserCommand command)
         {
-            var validator = new Cqrs.CommandValidators.AddUserValidation();
+            var validator = new Cqrs.CommandValidators.Users.AddUserValidation();
             var result = validator.Validate(command);
             if (!result.IsValid)
             {
@@ -65,7 +65,7 @@ namespace SdProject.Apis.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateUserAsync([FromBody] UpdateUserCommand command)
         {
-            var validator = new Cqrs.CommandValidators.UpdateUserValidation();
+            var validator = new Cqrs.CommandValidators.Users.UpdateUserValidation();
             var result = validator.Validate(command);
             if (!result.IsValid)
             {
@@ -84,7 +84,7 @@ namespace SdProject.Apis.Controllers
         [HttpPost ("favorite")]
         public async Task<IActionResult> AddBookWithUserAsync([FromBody] AddUserBookCommand command)
         {
-            var validator = new Cqrs.CommandValidators.AddUserBookValidation();
+            var validator = new Cqrs.CommandValidators.Users.AddUserBookValidation();
             var result = validator.Validate(command);
             if (!result.IsValid)
             {
@@ -100,10 +100,10 @@ namespace SdProject.Apis.Controllers
         /// </summary>
         /// <param name="command"></param>
         /// <returns></returns>
-        [HttpPost("favorite-update")]
+        [HttpPut("favorite-update")]
         public async Task<IActionResult> UpdateUserBookAsync([FromBody] UpdateUserBookCommand command)
         {
-            var validator = new Cqrs.CommandValidators.UpdateUserBookValidation();
+            var validator = new Cqrs.CommandValidators.Users.UpdateUserBookValidation();
             var result = validator.Validate(command);
             if (!result.IsValid)
             {

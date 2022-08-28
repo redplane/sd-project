@@ -46,7 +46,7 @@ namespace SdProject.Apis.Controllers
         [HttpPost]
         public async Task<IActionResult> AddBookAsync([FromBody] AddBookCommand command)
         {
-            var validator = new Cqrs.CommandValidators.AddBookValidation();
+            var validator = new Cqrs.CommandValidators.Books.AddBookValidation();
             var result = validator.Validate(command);
             if (!result.IsValid)
             {
@@ -65,7 +65,7 @@ namespace SdProject.Apis.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateBookAsync([FromBody] UpdateBookCommand command)
         {
-            var validator = new Cqrs.CommandValidators.UpdateBookValidation();
+            var validator = new Cqrs.CommandValidators.Books.UpdateBookValidation();
             var result = validator.Validate(command);
             if (!result.IsValid)
             {

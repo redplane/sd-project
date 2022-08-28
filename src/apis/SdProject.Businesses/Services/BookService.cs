@@ -20,7 +20,7 @@ namespace SdProject.Businesses.Services
             _context = context;
         }
 
-        public async Task<IEnumerable<BookEntity>> SearchBookAsync(SearchBookQuery request, CancellationToken cancellation)
+        public async Task<IEnumerable<Book>> SearchBookAsync(SearchBookQuery request, CancellationToken cancellation)
         {
             var books = _context.Book.AsQueryable();
             if (request != null && !string.IsNullOrWhiteSpace(request.Title))
@@ -41,12 +41,12 @@ namespace SdProject.Businesses.Services
             return books.ToList();
         }
 
-        public async Task<IEnumerable<BookEntity>> FindBookByUserAsync(SearchBookByUserQuery request, CancellationToken cancellation)
+        public async Task<IEnumerable<Book>> FindBookByUserAsync(SearchBookByUserQuery request, CancellationToken cancellation)
         {
             return (from ub in _context.UserBookEntities
                     join b in _context.Book on ub.BookId equals b.Id
                     where ub.UserId == request.UserId
-                    select new BookEntity
+                    select new Book
                     {
                         Id = b.Id,
                         Title = b.Title,
@@ -56,15 +56,15 @@ namespace SdProject.Businesses.Services
                     }).ToList();
         }
 
-        public async Task<BookEntity> AddBookAsync(AddBookCommand request, CancellationToken cancellation)
+        public async Task<Book> AddBookAsync(AddBookCommand request, CancellationToken cancellation)
         {
-            BookEntity entity = new BookEntity { Title = request.Title, Category = request.Category, Description = request.Description, Price = request.Price };
+            Book entity = new Book { Title = request.Title, Category = request.Category, Description = request.Description, Price = request.Price };
             var book = _context.Book.Add(entity);
             await _context.SaveChangesAsync();
             return book.Entity;
         }
 
-        public async Task<BookEntity> UpdateBookAsync(UpdateBookCommand request, CancellationToken cancellation)
+        public async Task<Book> UpdateBookAsync(UpdateBookCommand request, CancellationToken cancellation)
         {
             var checkExists = _context.Book.AsNoTracking().FirstOrDefault(x => x.Id == request.Id);
             if (checkExists == null)
@@ -72,7 +72,7 @@ namespace SdProject.Businesses.Services
                 throw new EntityNotFoundException(request.Id.ToString());
             }
 
-            BookEntity entity = new BookEntity { Id = request.Id, Title = request.Title, Category = request.Category, Description = request.Description, Price = request.Price };
+            Book entity = new Book { Id = request.Id, Title = request.Title, Category = request.Category, Description = request.Description, Price = request.Price };
             var book = _context.Book.Update(entity);
             await _context.SaveChangesAsync();
             return book.Entity;

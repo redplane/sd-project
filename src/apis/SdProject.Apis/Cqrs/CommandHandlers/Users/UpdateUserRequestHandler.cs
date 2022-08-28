@@ -8,9 +8,9 @@ using SdProject.Businesses.Models.Users;
 using SdProject.Businesses.Services.Abstractions;
 using Core.Entities;
 
-namespace SdProject.Apis.Cqrs.CommandHandlers.User.Commands.Handlers
+namespace SdProject.Apis.Cqrs.CommandHandlers.Users
 {
-    public class UpdateUserRequestHandler : IRequestHandler<UpdateUserCommand, UserEntity>
+    public class UpdateUserRequestHandler : IRequestHandler<UpdateUserCommand, global::Core.Entities.User>
     {
         private readonly IUserService _usersService;
         public UpdateUserRequestHandler(IUserService usersService)
@@ -18,7 +18,7 @@ namespace SdProject.Apis.Cqrs.CommandHandlers.User.Commands.Handlers
             _usersService = usersService;
         }
 
-        public Task<UserEntity> Handle(UpdateUserCommand request, CancellationToken cancellation)
+        public Task<global::Core.Entities.User> Handle(UpdateUserCommand request, CancellationToken cancellation)
         {
             return _usersService.UpdateUserAsync(request, cancellation);
         }

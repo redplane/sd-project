@@ -8,9 +8,9 @@ using SdProject.Businesses.Models.Users;
 using SdProject.Businesses.Services.Abstractions;
 using Core.Entities;
 
-namespace SdProject.Apis.Cqrs.CommandHandlers.User.Commands.Handlers
+namespace SdProject.Apis.Cqrs.CommandHandlers.Books
 {
-    public class SearchBookRequestHandler : IRequestHandler<SearchBookQuery, IEnumerable<BookEntity>>
+    public class SearchBookRequestHandler : IRequestHandler<SearchBookQuery, IEnumerable<Book>>
     {
         private readonly IBookService _bookService;
         public SearchBookRequestHandler(IBookService bookService)
@@ -18,7 +18,7 @@ namespace SdProject.Apis.Cqrs.CommandHandlers.User.Commands.Handlers
             _bookService = bookService;
         }
 
-        public Task<IEnumerable<BookEntity>> Handle(SearchBookQuery request, CancellationToken cancellation)
+        public Task<IEnumerable<Book>> Handle(SearchBookQuery request, CancellationToken cancellation)
         {
             return _bookService.SearchBookAsync(request, cancellation);
         }

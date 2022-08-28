@@ -5,7 +5,7 @@ using MediatR;
 
 namespace SdProject.Businesses.Models.Users
 {
-    public class SearchBookQuery : IRequest<IEnumerable<BookEntity>> 
+    public class SearchBookQuery : IRequest<IEnumerable<Book>> 
     {
         public string Title { get; set; }
         public string Category { get; set; }
