@@ -44,7 +44,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Cqrs\CommandValidators\Users\" />
         <Folder Include="Cqrs\QueryHandlers" />
         <Folder Include="Events\MessageHandlers" />
     </ItemGroup>

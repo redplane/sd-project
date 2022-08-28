@@ -15,5 +15,7 @@ namespace SdProject.Businesses.Services.Abstractions
         Task<IEnumerable<UserEntity>> FindUserByBookAsync(SearchUserByBookQuery request, CancellationToken cancellation);
         Task<UserEntity> AddUserAsync(AddUserCommand request, CancellationToken cancellation);
         Task<UserEntity> UpdateUserAsync(UpdateUserCommand request, CancellationToken cancellation);
+        Task<UserBookEntity> AddUserBookAsync(AddUserBookCommand request, CancellationToken cancellation);
+        Task<UserBookEntity> UpdateUserBookAsync(UpdateUserBookCommand request, CancellationToken cancellation);
     }
 }

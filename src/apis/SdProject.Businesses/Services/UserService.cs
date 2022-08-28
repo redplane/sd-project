@@ -7,6 +7,7 @@ using SdProject.Core.DbContexts;
 using Core.Entities;
 using System.Collections.Generic;
 using System.Linq;
+using SdProject.Businesses.Exception;
 
 namespace SdProject.Businesses.Services
 {
@@ -46,6 +47,7 @@ namespace SdProject.Businesses.Services
                         Birthdate = u.Birthdate
                     }).ToList();
         }
+
         public async Task<UserEntity> AddUserAsync(AddUserCommand request, CancellationToken cancellation)
         {
             UserEntity entity = new UserEntity { FirstName = request.FirstName, LastName = request.LastName, Birthdate = request.Birthdate };
@@ -56,10 +58,54 @@ namespace SdProject.Businesses.Services
 
         public async Task<UserEntity> UpdateUserAsync(UpdateUserCommand request, CancellationToken cancellation)
         {
+            var checkExists = _context.User.FirstOrDefault(x => x.Id == request.Id);
+            if (checkExists == null)
+            {
+                throw new EntityNotFoundException(request.Id.ToString());
+            }
             UserEntity entity = new UserEntity { Id = request.Id, FirstName = request.FirstName, LastName = request.LastName, Birthdate = request.Birthdate };
             var user = _context.User.Update(entity);
             await _context.SaveChangesAsync();
             return user.Entity;
+        }
+
+        public async Task<UserBookEntity> AddUserBookAsync(AddUserBookCommand request, CancellationToken cancellation)
+        {
+            if (!isCheckExists(request.UserId, request.BookId))
+            {
+                throw new EntityNotFoundException("");
+            }
+            UserBookEntity entity = new UserBookEntity { UserId = request.UserId, BookId = request.BookId };
+            var userBook = _context.UserBookEntities.Add(entity);
+            await _context.SaveChangesAsync();
+            return userBook.Entity;
+        }
+
+        public async Task<UserBookEntity> UpdateUserBookAsync(UpdateUserBookCommand request, CancellationToken cancellation)
+        {
+            if (!isCheckExists(request.UserId, request.BookId))
+            {
+                throw new EntityNotFoundException("");
+            }
+            UserBookEntity entity = new UserBookEntity { Id = request.Id, UserId = request.UserId, BookId = request.BookId };
+            var userBook = _context.UserBookEntities.Update(entity);
+            await _context.SaveChangesAsync();
+            return userBook.Entity;
+        }
+
+        private bool isCheckExists(int UserId, int BookId)
+        {
+            var checkExistsUser = _context.User.FirstOrDefault(x => x.Id == UserId);
+
+            if (checkExistsUser == null)
+                return false;
+
+            var checkExistsBook = _context.Book.FirstOrDefault(x => x.Id == BookId);
+
+            if (checkExistsBook == null)
+                return false;
+
+            return true;
         }
     }
 }

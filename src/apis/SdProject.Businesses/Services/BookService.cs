@@ -7,6 +7,7 @@ using SdProject.Core.DbContexts;
 using Core.Entities;
 using System.Collections.Generic;
 using System.Linq;
+using SdProject.Businesses.Exception;
 
 namespace SdProject.Businesses.Services
 {
@@ -57,17 +58,23 @@ namespace SdProject.Businesses.Services
         public async Task<BookEntity> AddBookAsync(AddBookCommand request, CancellationToken cancellation)
         {
             BookEntity entity = new BookEntity { Title = request.Title, Category = request.Category, Description = request.Description, Price = request.Price };
-            var user = _context.Book.Add(entity);
+            var book = _context.Book.Add(entity);
             await _context.SaveChangesAsync();
-            return user.Entity;
+            return book.Entity;
         }
 
         public async Task<BookEntity> UpdateBookAsync(UpdateBookCommand request, CancellationToken cancellation)
         {
+            var checkExists = _context.Book.FirstOrDefault(x => x.Id == request.Id);
+            if (checkExists == null)
+            {
+                throw new EntityNotFoundException(request.Id.ToString());
+            }
+
             BookEntity entity = new BookEntity { Id = request.Id, Title = request.Title, Category = request.Category, Description = request.Description, Price = request.Price };
-            var user = _context.Book.Update(entity);
+            var book = _context.Book.Update(entity);
             await _context.SaveChangesAsync();
-            return user.Entity;
+            return book.Entity;
         }
     }
 }

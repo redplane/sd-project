@@ -46,6 +46,13 @@ namespace SdProject.Apis.Controllers
         [HttpPost]
         public async Task<IActionResult> AddUserAsync([FromBody] AddUserCommand command)
         {
+            var validator = new Cqrs.CommandValidators.AddUserValidation();
+            var result = validator.Validate(command);
+            if (!result.IsValid)
+            {
+                return BadRequest(result.Errors);
+            }
+
             var response = await _mediator.Send(command);
             return Ok(response);
         }
@@ -58,6 +65,51 @@ namespace SdProject.Apis.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateUserAsync([FromBody] UpdateUserCommand command)
         {
+            var validator = new Cqrs.CommandValidators.UpdateUserValidation();
+            var result = validator.Validate(command);
+            if (!result.IsValid)
+            {
+                return BadRequest(result.Errors);
+            }
+
+            var response = await _mediator.Send(command);
+            return Ok(response);
+        }
+
+        /// <summary>
+        /// favorite
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        [HttpPost ("favorite")]
+        public async Task<IActionResult> AddBookWithUserAsync([FromBody] AddUserBookCommand command)
+        {
+            var validator = new Cqrs.CommandValidators.AddUserBookValidation();
+            var result = validator.Validate(command);
+            if (!result.IsValid)
+            {
+                return BadRequest(result.Errors);
+            }
+
+            var response = await _mediator.Send(command);
+            return Ok(response);
+        }
+
+        /// <summary>
+        /// favorite
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        [HttpPut]
+        public async Task<IActionResult> UpdateUserBookAsync([FromBody] UpdateUserBookCommand command)
+        {
+            var validator = new Cqrs.CommandValidators.UpdateUserBookValidation();
+            var result = validator.Validate(command);
+            if (!result.IsValid)
+            {
+                return BadRequest(result.Errors);
+            }
+
             var response = await _mediator.Send(command);
             return Ok(response);
         }
