@@ -9,11 +9,18 @@ namespace SdProject.Apis.Controllers
     [ApiController]
     public class BookController : ControllerBase
     {
+        #region Properties
         private readonly IMediator _mediator;
+        #endregion
+
+        #region Constructor
         public BookController(IMediator mediator)
         {
             _mediator = mediator;
         }
+        #endregion
+
+        #region Method
         /// <summary>
         /// User Search 
         /// </summary>
@@ -46,13 +53,6 @@ namespace SdProject.Apis.Controllers
         [HttpPost]
         public async Task<IActionResult> AddBookAsync([FromBody] AddBookCommand command)
         {
-            var validator = new Cqrs.CommandValidators.AddBookValidation();
-            var result = validator.Validate(command);
-            if (!result.IsValid)
-            {
-                return BadRequest(result.Errors);
-            }
-
             var response = await _mediator.Send(command);
             return Ok(response);
         }
@@ -65,15 +65,10 @@ namespace SdProject.Apis.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateBookAsync([FromBody] UpdateBookCommand command)
         {
-            var validator = new Cqrs.CommandValidators.UpdateBookValidation();
-            var result = validator.Validate(command);
-            if (!result.IsValid)
-            {
-                return BadRequest(result.Errors);
-            }
-
             var response = await _mediator.Send(command);
             return Ok(response);
         }
+        #endregion
+
     }
 }

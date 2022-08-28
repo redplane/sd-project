@@ -8,9 +8,9 @@ using SdProject.Businesses.Models.Users;
 using SdProject.Businesses.Services.Abstractions;
 using Core.Entities;
 
-namespace SdProject.Apis.Cqrs.CommandHandlers.User.Commands.Handlers
+namespace SdProject.Apis.Cqrs.CommandHandlers.Users
 {
-    public class AddUserBookRequestHandler : IRequestHandler<AddUserBookCommand, UserBookEntity>
+    public class AddUserBookRequestHandler : IRequestHandler<AddUserBookCommand, UserBook>
     {
         private readonly IUserService _usersService;
         public AddUserBookRequestHandler(IUserService usersService)
@@ -18,7 +18,7 @@ namespace SdProject.Apis.Cqrs.CommandHandlers.User.Commands.Handlers
             _usersService = usersService;
         }
 
-        public Task<UserBookEntity> Handle(AddUserBookCommand request, CancellationToken cancellation)
+        public Task<UserBook> Handle(AddUserBookCommand request, CancellationToken cancellation)
         {
             return _usersService.AddUserBookAsync(request, cancellation);
         }

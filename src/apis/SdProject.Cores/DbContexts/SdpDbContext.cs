@@ -6,9 +6,9 @@ namespace SdProject.Core.DbContexts
 {
     public class SdPDbContext : DbContext
     {
-        public DbSet<UserEntity> User { get; set; }
-        public DbSet<BookEntity> Book { get; set; }
-        public DbSet<UserBookEntity> UserBookEntities { get; set; }
+        public DbSet<User> User { get; set; }
+        public DbSet<Book> Book { get; set; }
+        public DbSet<UserBook> UserBookEntities { get; set; }
         public SdPDbContext(DbContextOptions<SdPDbContext> options) : base(options)
         {
         }

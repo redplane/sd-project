@@ -4,13 +4,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace SdProject.Core.Configurations
 {
-    public class UserConfiguration : IEntityTypeConfiguration<UserEntity>
+    public class UserConfiguration : IEntityTypeConfiguration<User>
     {
-        public void Configure(EntityTypeBuilder<UserEntity> builder)
+        public void Configure(EntityTypeBuilder<User> builder)
         {
-            // configure the model.
-            builder.ToTable("user");
-            builder.Property(x => x.Id).HasColumnName("Id");
+            builder.Property(x => x.id).HasColumnName("id");
             builder.Property(x => x.FirstName).HasColumnName("FirstName");
             builder.Property(x => x.LastName).HasColumnName("LastName");
             builder.Property(x => x.Birthdate).HasColumnName("Birthdate");

@@ -1,5 +1,7 @@
-﻿using System.Reflection;
+﻿using System.Linq;
+using System.Reflection;
 using ApiFeatures.Commons.PipelineBehaviors;
+using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,9 +30,29 @@ namespace SdProject.Apis.Extensions
             services.AddScoped<IBookService, BookService>();
             services.AddScoped<IJsonSerializer, SnakeCaseJsonSerializer>();
             services.AddScoped<IJsonSerializer, CamelCaseJsonSerializer>();
+
+            services.AddApplicationValidator();
             return services;
         }
 
+        public static void AddApplicationValidator(this IServiceCollection serviceCollection)
+        {
+            // All the validator object should be added into DI
+            var assemblyType = typeof(Startup).GetTypeInfo();
+            var validators = assemblyType.Assembly.DefinedTypes.Where(x => x.IsClass && !x.IsAbstract && typeof(IValidator).IsAssignableFrom(x)).ToArray();
+
+            foreach (var validator in validators)
+            {
+                // Validator is an instance of abstract validator.
+                if (validator.BaseType != null && validator.BaseType.IsGenericType &&
+                    validator.BaseType.GetGenericTypeDefinition() == typeof(AbstractValidator<>))
+                {
+                    var validatorType =
+                        typeof(IValidator<>).MakeGenericType(validator.BaseType.GetGenericArguments()[0]);
+                    serviceCollection.AddSingleton(validatorType, validator);
+                }
+            }
+        }
         #endregion
     }
 }

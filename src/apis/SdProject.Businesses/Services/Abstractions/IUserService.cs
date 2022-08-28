@@ -11,11 +11,11 @@ namespace SdProject.Businesses.Services.Abstractions
 {
     public interface IUserService
     {
-        Task<IEnumerable<UserEntity>> SearchUserAsync(SearchUserQuery request, CancellationToken cancellation);
-        Task<IEnumerable<UserEntity>> FindUserByBookAsync(SearchUserByBookQuery request, CancellationToken cancellation);
-        Task<UserEntity> AddUserAsync(AddUserCommand request, CancellationToken cancellation);
-        Task<UserEntity> UpdateUserAsync(UpdateUserCommand request, CancellationToken cancellation);
-        Task<UserBookEntity> AddUserBookAsync(AddUserBookCommand request, CancellationToken cancellation);
-        Task<UserBookEntity> UpdateUserBookAsync(UpdateUserBookCommand request, CancellationToken cancellation);
+        Task<IEnumerable<User>> SearchUserAsync(SearchUserQuery request, CancellationToken cancellation);
+        Task<IEnumerable<User>> FindUserByBookAsync(SearchUserByBookQuery request, CancellationToken cancellation);
+        Task<User> AddUserAsync(AddUserCommand request, CancellationToken cancellation);
+        Task<User> UpdateUserAsync(UpdateUserCommand request, CancellationToken cancellation);
+        Task<UserBook> AddUserBookAsync(AddUserBookCommand request, CancellationToken cancellation);
+        Task<UserBook> UpdateUserBookAsync(UpdateUserBookCommand request, CancellationToken cancellation);
     }
 }

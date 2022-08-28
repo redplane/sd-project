@@ -5,3 +5,5 @@
 /src/apis/SdProject.Businesses/obj
 /src/apis/SdProject.Cores/bin
 /src/apis/SdProject.Cores/obj
+/tests/SdProject.Businesses.Tests/bin
+/tests/SdProject.Businesses.Tests/obj

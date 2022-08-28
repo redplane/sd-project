@@ -4,12 +4,10 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace SdProject.Core.Configurations
 {
-    public class BookConfiguration : IEntityTypeConfiguration<BookEntity>
+    public class BookConfiguration : IEntityTypeConfiguration<Book>
     {
-        public void Configure(EntityTypeBuilder<BookEntity> builder)
+        public void Configure(EntityTypeBuilder<Book> builder)
         {
-            // configure the model.
-            builder.ToTable("book");
             builder.Property(x => x.Id).HasColumnName("Id");
             builder.Property(x => x.Title).HasColumnName("Title");
             builder.Property(x => x.Category).HasColumnName("Category");
