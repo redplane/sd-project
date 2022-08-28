@@ -10,7 +10,7 @@ namespace SdProject.Core.Configurations
         {
             // configure the model.
             builder.ToTable("user");
-            builder.Property(x => x.Id).HasColumnName("Id");
+            builder.Property(x => x.id).HasColumnName("id");
             builder.Property(x => x.FirstName).HasColumnName("FirstName");
             builder.Property(x => x.LastName).HasColumnName("LastName");
             builder.Property(x => x.Birthdate).HasColumnName("Birthdate");

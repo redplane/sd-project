@@ -8,6 +8,7 @@ using Core.Entities;
 using System.Collections.Generic;
 using System.Linq;
 using SdProject.Businesses.Exception;
+using Microsoft.EntityFrameworkCore;
 
 namespace SdProject.Businesses.Services
 {
@@ -37,11 +38,11 @@ namespace SdProject.Businesses.Services
         public async Task<IEnumerable<UserEntity>> FindUserByBookAsync(SearchUserByBookQuery request, CancellationToken cancellation)
         {
             return (from ub in _context.UserBookEntities
-                    join u in _context.User on ub.BookId equals u.Id
+                    join u in _context.User on ub.BookId equals u.id
                     where ub.BookId == request.BookId
                     select new UserEntity
                     {
-                        Id = u.Id,
+                        id = u.id,
                         FirstName = u.FirstName,
                         LastName = u.LastName,
                         Birthdate = u.Birthdate
@@ -58,12 +59,12 @@ namespace SdProject.Businesses.Services
 
         public async Task<UserEntity> UpdateUserAsync(UpdateUserCommand request, CancellationToken cancellation)
         {
-            var checkExists = _context.User.FirstOrDefault(x => x.Id == request.Id);
+            var checkExists = _context.User.AsNoTracking().FirstOrDefault(x => x.id == request.Id);
             if (checkExists == null)
             {
                 throw new EntityNotFoundException(request.Id.ToString());
             }
-            UserEntity entity = new UserEntity { Id = request.Id, FirstName = request.FirstName, LastName = request.LastName, Birthdate = request.Birthdate };
+            UserEntity entity = new UserEntity { id = request.Id, FirstName = request.FirstName, LastName = request.LastName, Birthdate = request.Birthdate };
             var user = _context.User.Update(entity);
             await _context.SaveChangesAsync();
             return user.Entity;
@@ -95,12 +96,12 @@ namespace SdProject.Businesses.Services
 
         private bool isCheckExists(int UserId, int BookId)
         {
-            var checkExistsUser = _context.User.FirstOrDefault(x => x.Id == UserId);
+            var checkExistsUser = _context.User.AsNoTracking().FirstOrDefault(x => x.id == UserId);
 
             if (checkExistsUser == null)
                 return false;
 
-            var checkExistsBook = _context.Book.FirstOrDefault(x => x.Id == BookId);
+            var checkExistsBook = _context.Book.AsNoTracking().FirstOrDefault(x => x.Id == BookId);
 
             if (checkExistsBook == null)
                 return false;

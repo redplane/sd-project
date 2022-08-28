@@ -100,7 +100,7 @@ namespace SdProject.Apis.Controllers
         /// </summary>
         /// <param name="command"></param>
         /// <returns></returns>
-        [HttpPut]
+        [HttpPost("favorite-update")]
         public async Task<IActionResult> UpdateUserBookAsync([FromBody] UpdateUserBookCommand command)
         {
             var validator = new Cqrs.CommandValidators.UpdateUserBookValidation();

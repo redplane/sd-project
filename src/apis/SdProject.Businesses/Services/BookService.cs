@@ -8,6 +8,7 @@ using Core.Entities;
 using System.Collections.Generic;
 using System.Linq;
 using SdProject.Businesses.Exception;
+using Microsoft.EntityFrameworkCore;
 
 namespace SdProject.Businesses.Services
 {
@@ -43,16 +44,16 @@ namespace SdProject.Businesses.Services
         public async Task<IEnumerable<BookEntity>> FindBookByUserAsync(SearchBookByUserQuery request, CancellationToken cancellation)
         {
             return (from ub in _context.UserBookEntities
-                             join b in _context.Book on ub.BookId equals b.Id
-                             where ub.UserId == request.UserId
-                             select new BookEntity
-                             {
-                                 Id = b.Id,
-                                 Title = b.Title,
-                                 Category = b.Category,
-                                 Description = b.Description,
-                                 Price = b.Price
-                             }).ToList();
+                    join b in _context.Book on ub.BookId equals b.Id
+                    where ub.UserId == request.UserId
+                    select new BookEntity
+                    {
+                        Id = b.Id,
+                        Title = b.Title,
+                        Category = b.Category,
+                        Description = b.Description,
+                        Price = b.Price
+                    }).ToList();
         }
 
         public async Task<BookEntity> AddBookAsync(AddBookCommand request, CancellationToken cancellation)
@@ -65,7 +66,7 @@ namespace SdProject.Businesses.Services
 
         public async Task<BookEntity> UpdateBookAsync(UpdateBookCommand request, CancellationToken cancellation)
         {
-            var checkExists = _context.Book.FirstOrDefault(x => x.Id == request.Id);
+            var checkExists = _context.Book.AsNoTracking().FirstOrDefault(x => x.Id == request.Id);
             if (checkExists == null)
             {
                 throw new EntityNotFoundException(request.Id.ToString());
