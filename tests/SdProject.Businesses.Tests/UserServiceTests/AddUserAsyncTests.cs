@@ -4,9 +4,7 @@ using SdProject.Businesses.Models.Users;
 using SdProject.Businesses.Services;
 using SdProject.Businesses.Services.Abstractions;
 using SdProject.Core.DbContexts;
-using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 
@@ -43,17 +41,25 @@ namespace SdProject.Businesses.Tests.UserServiceTests
             var addUserCommand = new AddUserCommand() { FirstName = "Liam-2909-1", LastName = "Nguyen", Birthdate = DateTime.Now };
             var result = await userService.AddUserAsync(addUserCommand, default);
             userId = result.id;
+
             Assert.NotNull(result, "Add user failed");
+            Assert.AreEqual(result.FirstName, addUserCommand.FirstName);
+            Assert.AreEqual(result.LastName, addUserCommand.LastName);
+            Assert.AreEqual(result.Birthdate, addUserCommand.Birthdate);
         }
 
         [Test]
         public async Task UpdateUserAsync_SendUpdateUserCommand_Returns_UpdatedUser()
         {
             var userService = _serviceProvider.GetRequiredService<IUserService>();
-            var UpdateUserCommand = new UpdateUserCommand() { Id = userId, FirstName = "Liam-2909-2", LastName = "Nguyen", Birthdate = DateTime.Now };
-            var result = await userService.UpdateUserAsync(UpdateUserCommand, default);
+            var updateUserCommand = new UpdateUserCommand() { Id = userId, FirstName = "Liam-2909-2", LastName = "Nguyen", Birthdate = DateTime.Now };
+            var result = await userService.UpdateUserAsync(updateUserCommand, default);
 
             Assert.NotNull(result, "Update user failed");
+            Assert.AreEqual(result.id, updateUserCommand.Id);
+            Assert.AreEqual(result.FirstName, updateUserCommand.FirstName);
+            Assert.AreEqual(result.LastName, updateUserCommand.LastName);
+            Assert.AreEqual(result.Birthdate, updateUserCommand.Birthdate);
         }
 
         [Test]
@@ -63,7 +69,12 @@ namespace SdProject.Businesses.Tests.UserServiceTests
             var addBookCommand = new AddBookCommand() { Title = "Book-2808-1", Category = "Category", Description = "Description", Price = 155000 };
             var result = await bookService.AddBookAsync(addBookCommand, default);
             bookId = result.Id;
+
             Assert.NotNull(result, "Add book failed");
+            Assert.AreEqual(result.Title, addBookCommand.Title);
+            Assert.AreEqual(result.Category, addBookCommand.Category);
+            Assert.AreEqual(result.Description, addBookCommand.Description);
+            Assert.AreEqual(result.Price, addBookCommand.Price);
         }
 
         [Test]
@@ -73,17 +84,23 @@ namespace SdProject.Businesses.Tests.UserServiceTests
             var addUserBookCommand = new AddUserBookCommand() { UserId = userId, BookId = bookId };
             var result = await userService.AddUserBookAsync(addUserBookCommand, default);
             userBookId = result.Id;
+
             Assert.NotNull(result, "Add user book failed");
+            Assert.AreEqual(result.UserId, addUserBookCommand.UserId);
+            Assert.AreEqual(result.BookId, addUserBookCommand.BookId);
         }
 
         [Test]
         public async Task UpdateUserBookAsync_SendUpdateUserBookCommand_Returns_UpdatedUserBook()
         {
             var userService = _serviceProvider.GetRequiredService<IUserService>();
-            var UpdateUserBookCommand = new UpdateUserBookCommand() { Id = userBookId, UserId = userId, BookId = bookId };
-            var result = await userService.UpdateUserBookAsync(UpdateUserBookCommand, default);
+            var updateUserBookCommand = new UpdateUserBookCommand() { Id = userBookId, UserId = userId, BookId = bookId };
+            var result = await userService.UpdateUserBookAsync(updateUserBookCommand, default);
 
             Assert.NotNull(result, "Update user book failed");
+            Assert.AreEqual(result.Id, updateUserBookCommand.Id);
+            Assert.AreEqual(result.UserId, updateUserBookCommand.UserId);
+            Assert.AreEqual(result.BookId, updateUserBookCommand.BookId);
         }
     }
 }

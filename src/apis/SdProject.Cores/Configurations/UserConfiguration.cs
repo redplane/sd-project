@@ -8,8 +8,6 @@ namespace SdProject.Core.Configurations
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            // configure the model.
-            builder.ToTable("user");
             builder.Property(x => x.id).HasColumnName("id");
             builder.Property(x => x.FirstName).HasColumnName("FirstName");
             builder.Property(x => x.LastName).HasColumnName("LastName");

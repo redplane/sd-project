@@ -39,7 +39,12 @@ namespace SdProject.Businesses.Tests.BookServiceTests
             var addBookCommand = new AddBookCommand() { Title = "Book-2808-1", Category = "Category", Description = "Description", Price = 155000 };
             var result = await bookService.AddBookAsync(addBookCommand, default);
             bookId = result.Id;
+
             Assert.NotNull(result, "Add book failed");
+            Assert.AreEqual(result.Title, addBookCommand.Title);
+            Assert.AreEqual(result.Category, addBookCommand.Category);
+            Assert.AreEqual(result.Description, addBookCommand.Description);
+            Assert.AreEqual(result.Price, addBookCommand.Price);
         }
 
         [Test]
@@ -50,6 +55,11 @@ namespace SdProject.Businesses.Tests.BookServiceTests
             var result = await bookService.UpdateBookAsync(updateBookCommand, default);
 
             Assert.NotNull(result, "Update book failed");
+            Assert.AreEqual(result.Id, updateBookCommand.Id);
+            Assert.AreEqual(result.Title, updateBookCommand.Title);
+            Assert.AreEqual(result.Category, updateBookCommand.Category);
+            Assert.AreEqual(result.Description, updateBookCommand.Description);
+            Assert.AreEqual(result.Price, updateBookCommand.Price);
         }
     }
 }

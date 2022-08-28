@@ -14,12 +14,18 @@ namespace SdProject.Businesses.Services
 {
     public class BookService : IBookService
     {
+        #region Properties
         SdPDbContext _context;
+        #endregion
+
+        #region Constructor
         public BookService(SdPDbContext context)
         {
             _context = context;
         }
+        #endregion
 
+        #region Method
         public async Task<IEnumerable<Book>> SearchBookAsync(SearchBookQuery request, CancellationToken cancellation)
         {
             var books = _context.Book.AsQueryable();
@@ -77,5 +83,6 @@ namespace SdProject.Businesses.Services
             await _context.SaveChangesAsync();
             return book.Entity;
         }
+        #endregion
     }
 }

@@ -14,12 +14,18 @@ namespace SdProject.Businesses.Services
 {
     public class UserService : IUserService
     {
+        #region Properties
         SdPDbContext _context;
+        #endregion
+
+        #region Constructor
         public UserService(SdPDbContext context)
         {
             _context = context;
         }
+        #endregion
 
+        #region Method
         public async Task<IEnumerable<User>> SearchUserAsync(SearchUserQuery request, CancellationToken cancellation)
         {
             var users = _context.User.AsQueryable();
@@ -108,5 +114,6 @@ namespace SdProject.Businesses.Services
 
             return true;
         }
+        #endregion
     }
 }
