@@ -17,5 +17,6 @@ namespace SdProject.Businesses.Services.Abstractions
         Task<User> UpdateUserAsync(UpdateUserCommand request, CancellationToken cancellation);
         Task<UserBook> AddUserBookAsync(AddUserBookCommand request, CancellationToken cancellation);
         Task<UserBook> UpdateUserBookAsync(UpdateUserBookCommand request, CancellationToken cancellation);
+        Task<UserBook> UpdateHaveReadAsync(UpdateHaveReadCommand request, CancellationToken cancellation);
     }
 }

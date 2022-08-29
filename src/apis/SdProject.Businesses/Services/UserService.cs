@@ -82,6 +82,11 @@ namespace SdProject.Businesses.Services
             {
                 throw new EntityNotFoundException("");
             }
+
+            if (_context.UserBookEntities.Where(x => x.UserId == request.UserId && x.BookId == request.BookId).Any())
+            {
+                throw new EntityDuplicationException("");
+            }
             UserBook entity = new UserBook { UserId = request.UserId, BookId = request.BookId };
             var userBook = _context.UserBookEntities.Add(entity);
             await _context.SaveChangesAsync();
@@ -95,6 +100,25 @@ namespace SdProject.Businesses.Services
                 throw new EntityNotFoundException("");
             }
             UserBook entity = new UserBook { Id = request.Id, UserId = request.UserId, BookId = request.BookId };
+            var userBook = _context.UserBookEntities.Update(entity);
+            await _context.SaveChangesAsync();
+            return userBook.Entity;
+        }
+
+        public async Task<UserBook> UpdateHaveReadAsync(UpdateHaveReadCommand request, CancellationToken cancellation)
+        {
+            if (!isCheckExists(request.UserId, request.BookId))
+            {
+                throw new EntityNotFoundException("");
+            }
+
+            var entity = await _context.UserBookEntities.AsNoTracking().FirstOrDefaultAsync(x => x.UserId == request.UserId && x.BookId == request.BookId);
+            if (entity == null)
+            {
+                throw new EntityNotFoundException("");
+            }
+
+            entity.HaveRead = request.HaveRead;
             var userBook = _context.UserBookEntities.Update(entity);
             await _context.SaveChangesAsync();
             return userBook.Entity;
