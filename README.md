@@ -117,6 +117,14 @@ curl --location --request POST 'http://localhost:64068/api/Book/search' \
 }'
 ```
 
+## 4. Unit test
+
+To run project unit tests, use the following command:
+```
+dotnet test
+```
+
+Or using unit test plugins for `Jetbrain Rider` or `Visual Studio`.
 
 ## NOTE
 For more api information, please refer to: [http://localhost:64068/swagger/index.html](http://localhost:64068/swagger/index.html).

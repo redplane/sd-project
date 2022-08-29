@@ -15,31 +15,38 @@ namespace SdProject.Businesses.Tests.BookServiceTests
     [TestFixture]
     public class MarkAsReadAsyncTests
     {
+        private ServiceCollection _services;
+        
         [SetUp]
         public void SetUp()
         {
-            var services = new ServiceCollection();
-            services.AddScoped<IBookService, BookService>();
-            services.AddScoped<SdProjectDbContext>();
+            _services = new ServiceCollection();
+            _services.AddScoped<IBookService, BookService>();
+            _services.AddScoped<SdProjectDbContext>();
 
-            services.AddDbContext<SdProjectDbContext>(options =>
-                options.UseInMemoryDatabase("SdProjectDB"));
+            _services.AddDbContext<SdProjectDbContext>(options =>
+                options.UseInMemoryDatabase(Guid.NewGuid().ToString("D")));
 
-            services.AddScoped<SdProjectDbContext>();
-            _serviceProvider = services.BuildServiceProvider();
+            _services.AddScoped<SdProjectDbContext>();
         }
 
-        private IServiceProvider _serviceProvider;
-
+        [TearDown]
+        public void TearDown()
+        {
+            _services.Clear();
+        }
+        
         [Test]
         public void MarkAsReadAsync_BookNotExist_Throws_BookNotFoundException()
         {
-            var bookService = _serviceProvider.GetRequiredService<IBookService>();
+            var serviceProvider = _services.BuildServiceProvider();
+            
+            var bookService = serviceProvider.GetRequiredService<IBookService>();
             var markAsReadCommand = new MarkBookAsReadCommand();
             markAsReadCommand.UserId = 1;
             markAsReadCommand.BookId = 1;
 
-            var thrownException = Assert.CatchAsync<BookNotFoundException>(async () => await bookService.MarkAsReadAsync(markAsReadCommand));
+            var thrownException = Assert.CatchAsync<BookNotFoundException>(() => bookService.MarkAsReadAsync(markAsReadCommand));
             Assert.NotNull(thrownException);
         }
     }

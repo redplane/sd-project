@@ -16,27 +16,32 @@ namespace SdProject.Businesses.Tests.BookServiceTests
         [SetUp]
         public void SetUp()
         {
-            var services = new ServiceCollection();
-            services.AddScoped<IBookService, BookService>();
-            services.AddScoped<SdProjectDbContext>();
+            _services = new ServiceCollection();
+            _services.AddScoped<IBookService, BookService>();
+            _services.AddScoped<SdProjectDbContext>();
 
-            services.AddDbContext<SdProjectDbContext>(options =>
-                options.UseInMemoryDatabase("SdProjectDB"));
+            _services.AddDbContext<SdProjectDbContext>(options =>
+                options.UseInMemoryDatabase(Guid.NewGuid().ToString("D")));
 
-            services.AddScoped<SdProjectDbContext>();
-            _serviceProvider = services.BuildServiceProvider();
+            _services.AddScoped<SdProjectDbContext>();
         }
 
-        private IServiceProvider _serviceProvider;
+        public void TearDown()
+        {
+            _services.Clear();
+        }
+
+        private ServiceCollection _services;
 
         [Test]
         public async Task AddBookAsync_SendAddBookCommand_Returns_AddedBook()
         {
-            var bookService = _serviceProvider.GetRequiredService<IBookService>();
+            var serviceProvider = _services.BuildServiceProvider();
+            var bookService = serviceProvider.GetRequiredService<IBookService>();
             var addBookCommand = new AddBookCommand
                 { Title = "Book-2808-1", Category = "Category", Description = "Description", Price = 155000 };
             var addedBook = await bookService.AddAsync(addBookCommand, default);
-            
+
             Assert.NotNull(addedBook, "Add book failed");
             Assert.AreEqual(addedBook.Title, addBookCommand.Title);
             Assert.AreEqual(addedBook.Category, addBookCommand.Category);

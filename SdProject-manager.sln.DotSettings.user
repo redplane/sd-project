@@ -1,11 +1,4 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=94950990_002D4b9b_002D4cfc_002D93e1_002De487e73a3fbf/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="MarkAsReadAsync_BookNotExist_Throws_BookNotFoundException" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;TestAncestor&gt;
-    &lt;TestId&gt;NUnit3x::E7F549DA-B172-4C01-A30F-F95BDAD73614::net5.0::SdProject.Businesses.Tests.BookServiceTests.MarkAsReadAsyncTests.MarkAsReadAsync_BookNotExist_Throws_BookNotFoundException&lt;/TestId&gt;
-  &lt;/TestAncestor&gt;
-&lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=985b26d7_002D6fde_002D4771_002D826c_002D042b442f1482/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="MarkAsReadAsync_BookNotExist_Throws_BookNotFoundException #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;TestAncestor&gt;
-    &lt;TestId&gt;NUnit3x::E7F549DA-B172-4C01-A30F-F95BDAD73614::net5.0::SdProject.Businesses.Tests.BookServiceTests.MarkAsReadAsyncTests.MarkAsReadAsync_BookNotExist_Throws_BookNotFoundException&lt;/TestId&gt;
-  &lt;/TestAncestor&gt;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=44589a69_002D9a04_002D4856_002D94dc_002D543e43b298f7/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="All tests from &amp;lt;tests&amp;gt;\&amp;lt;SdProject.Businesses.Tests&amp;gt;" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;Project Location="/Volumes/Data/programming/back-end/sd-project/tests/SdProject.Businesses.Tests" Presentation="&amp;lt;tests&amp;gt;\&amp;lt;SdProject.Businesses.Tests&amp;gt;" /&gt;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

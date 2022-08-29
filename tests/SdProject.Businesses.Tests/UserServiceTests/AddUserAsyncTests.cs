@@ -16,25 +16,31 @@ namespace SdProject.Businesses.Tests.UserServiceTests
         [SetUp]
         public void SetUp()
         {
-            var services = new ServiceCollection();
-            services.AddScoped<IBookService, BookService>();
-            services.AddScoped<IUserService, UserService>();
+            _services = new ServiceCollection();
+            _services.AddScoped<IBookService, BookService>();
+            _services.AddScoped<IUserService, UserService>();
 
-            services.AddScoped<SdProjectDbContext>();
+            _services.AddScoped<SdProjectDbContext>();
 
-            services.AddDbContext<SdProjectDbContext>(options =>
-                options.UseInMemoryDatabase("SdProjectDB"));
+            _services.AddDbContext<SdProjectDbContext>(options =>
+                options.UseInMemoryDatabase(Guid.NewGuid().ToString("D")));
 
-            services.AddScoped<SdProjectDbContext>();
-            _serviceProvider = services.BuildServiceProvider();
+            _services.AddScoped<SdProjectDbContext>();
         }
 
-        private IServiceProvider _serviceProvider;
+        [TearDown]
+        public void TearDown()
+        {
+            _services.Clear();
+        }
+        
+        private ServiceCollection _services;
 
         [Test]
         public async Task AddUserAsync_SendAddUserCommand_Returns_AddedUser()
         {
-            var userService = _serviceProvider.GetRequiredService<IUserService>();
+            var serviceProvider = _services.BuildServiceProvider();
+            var userService = serviceProvider.GetRequiredService<IUserService>();
             var addUserCommand = new AddUserCommand
                 { FirstName = "Liam-2909-1", LastName = "Nguyen", Birthdate = DateTime.Now };
             var addedUser = await userService.AddAsync(addUserCommand, default);
