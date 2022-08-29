@@ -1,9 +1,8 @@
-﻿using SdProject.Businesses.Constants;
-using SdProject.Businesses.Providers.Abstractions;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using SdProject.Businesses.Constants;
 
-namespace SdProject.Apis.Providers.Implementations
+namespace SdProject.Businesses.Providers
 {
     public class SnakeCaseJsonSerializer : IJsonSerializer
     {

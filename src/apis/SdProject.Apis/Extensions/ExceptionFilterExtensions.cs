@@ -1,8 +1,7 @@
-﻿using SdProject.Commons.ExceptionFilters;
-using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.AspNetCore.Mvc.Filters;
+using SdProject.Apis.Filters;
 
-namespace SdProject.Commons.Extensions
+namespace SdProject.Apis.Extensions
 {
     public static class ExceptionFilterExtensions
     {
@@ -15,7 +14,7 @@ namespace SdProject.Commons.Extensions
             filters.Add<ExceptionFilter>();
             return filters;
         }
-        
+
         #endregion
     }
 }

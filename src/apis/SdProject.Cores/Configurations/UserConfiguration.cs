@@ -1,6 +1,6 @@
-using Core.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using SdProject.Core.Entities;
 
 namespace SdProject.Core.Configurations
 {
@@ -8,10 +8,12 @@ namespace SdProject.Core.Configurations
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.Property(x => x.id).HasColumnName("id");
-            builder.Property(x => x.FirstName).HasColumnName("FirstName");
-            builder.Property(x => x.LastName).HasColumnName("LastName");
-            builder.Property(x => x.Birthdate).HasColumnName("Birthdate");
+            builder.Property(x => x.Id);
+            builder.Property(x => x.FirstName);
+            builder.Property(x => x.LastName);
+            builder.Property(x => x.Birthdate);
+
+            builder.HasKey(x => x.Id);
         }
     }
 }

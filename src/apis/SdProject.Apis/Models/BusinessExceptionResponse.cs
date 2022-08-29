@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace SdProject.Commons.Models.HttpResponses
+namespace SdProject.Apis.Models
 {
     public class BusinessExceptionResponse : HttpResponse
     {

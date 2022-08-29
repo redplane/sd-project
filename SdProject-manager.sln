@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SdProject.Apis", "src\apis\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SdProject.Businesses", "src\apis\SdProject.Businesses\SdProject.Businesses.csproj", "{F5403C74-C227-47E1-8F84-10729ED9B58B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SdProject.Core", "src\apis\SdProject.Cores\SdProject.Core.csproj", "{1B554783-D480-4433-AF13-03A5B35D576A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SdProject.Cores", "src\apis\SdProject.Cores\SdProject.Cores.csproj", "{1B554783-D480-4433-AF13-03A5B35D576A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{DA7C7027-D288-4046-9407-4F55CCFF8A51}"
 EndProject

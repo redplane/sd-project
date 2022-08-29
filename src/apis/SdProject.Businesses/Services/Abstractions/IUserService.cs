@@ -1,22 +1,21 @@
-﻿using Core.Entities;
-using SdProject.Businesses.Models.Users;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using SdProject.Businesses.Cqrs.Commands.Users;
+using SdProject.Businesses.Cqrs.Queries.Users;
+using SdProject.Core.Entities;
 
 namespace SdProject.Businesses.Services.Abstractions
 {
     public interface IUserService
     {
-        Task<IEnumerable<User>> SearchUserAsync(SearchUserQuery request, CancellationToken cancellation);
-        Task<IEnumerable<User>> FindUserByBookAsync(SearchUserByBookQuery request, CancellationToken cancellation);
-        Task<User> AddUserAsync(AddUserCommand request, CancellationToken cancellation);
-        Task<User> UpdateUserAsync(UpdateUserCommand request, CancellationToken cancellation);
-        Task<UserBook> AddUserBookAsync(AddUserBookCommand request, CancellationToken cancellation);
-        Task<UserBook> UpdateUserBookAsync(UpdateUserBookCommand request, CancellationToken cancellation);
-        Task<UserBook> UpdateHaveReadAsync(UpdateHaveReadCommand request, CancellationToken cancellation);
+        Task<IEnumerable<User>> SearchAsync(SearchUserQuery request, CancellationToken cancellationToken = default);
+        Task<IEnumerable<Book>> SearchUserBooksAsync(SearchUserBooksQuery request, CancellationToken cancellationToken = default);
+        Task<User> AddAsync(AddUserCommand request, CancellationToken cancellationToken = default);
+        Task<User> UpdateAsync(UpdateUserCommand request, CancellationToken cancellationToken = default);
+        Task<UserBook> AddUserBookAsync(AddUserBookCommand request, CancellationToken cancellationToken = default);
+        Task<UserBook> UpdateUserBookAsync(UpdateUserBookCommand request, CancellationToken cancellationToken = default);
+
+        Task<User> GetByIdAsync(int id, CancellationToken cancellationToken = default);
     }
 }

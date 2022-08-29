@@ -1,8 +1,7 @@
-﻿using SdProject.Businesses.Constants;
-using SdProject.Businesses.Providers.Abstractions;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using SdProject.Businesses.Constants;
 
-namespace SdProject.Providers.Implementations
+namespace SdProject.Businesses.Providers
 {
     public class CamelCaseJsonSerializer : IJsonSerializer
     {

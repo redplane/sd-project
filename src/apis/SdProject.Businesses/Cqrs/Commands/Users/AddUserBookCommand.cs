@@ -1,18 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using Core.Entities;
 using MediatR;
-using Newtonsoft.Json;
+using SdProject.Core.Entities;
 
-namespace SdProject.Businesses.Models.Users
+namespace SdProject.Businesses.Cqrs.Commands.Users
 {
     public class AddUserBookCommand : IRequest<UserBook>
     {
         public int UserId { get; set; }
         public int BookId { get; set; }
-        public AddUserBookCommand()
-        {
-        }
     }
 }

@@ -1,5 +1,4 @@
-
-namespace SdProject.Businesses.Constant
+namespace SdProject.Businesses.Constants
 {
     public enum ErrorCodeConstants
     {

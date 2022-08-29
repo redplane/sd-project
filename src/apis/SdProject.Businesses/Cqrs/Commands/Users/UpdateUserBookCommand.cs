@@ -1,15 +1,12 @@
-using System;
-using System.Collections.Generic;
-using Core.Entities;
 using MediatR;
+using SdProject.Core.Entities;
 
-namespace SdProject.Businesses.Models.Users
+namespace SdProject.Businesses.Cqrs.Commands.Users
 {
     public class UpdateUserBookCommand : IRequest<UserBook>
     {
         public int Id { get; set; }
         public int UserId { get; set; }
         public int BookId { get; set; }
-        public UpdateUserBookCommand(){}
     }
 }

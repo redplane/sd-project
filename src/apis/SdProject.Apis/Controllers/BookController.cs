@@ -1,28 +1,34 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using MediatR;
-using SdProject.Businesses.Models.Users;
+using Microsoft.AspNetCore.Mvc;
+using SdProject.Businesses.Cqrs.Commands.Books;
+using SdProject.Businesses.Cqrs.Queries.Books;
 
 namespace SdProject.Apis.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/book")]
     [ApiController]
     public class BookController : ControllerBase
     {
         #region Properties
+
         private readonly IMediator _mediator;
+
         #endregion
 
         #region Constructor
+
         public BookController(IMediator mediator)
         {
             _mediator = mediator;
         }
+
         #endregion
 
         #region Method
+
         /// <summary>
-        /// User Search 
+        ///     Search for book
         /// </summary>
         /// <param name="command"></param>
         /// <returns></returns>
@@ -34,11 +40,11 @@ namespace SdProject.Apis.Controllers
         }
 
         /// <summary>
-        /// User Search 
+        ///     User Search
         /// </summary>
         /// <param name="command"></param>
         /// <returns></returns>
-        [HttpPost("find")]
+        [HttpPost("by-user")]
         public async Task<IActionResult> FindBookByUserAsync([FromBody] SearchBookByUserQuery command)
         {
             var response = await _mediator.Send(command);
@@ -46,7 +52,7 @@ namespace SdProject.Apis.Controllers
         }
 
         /// <summary>
-        /// Add User
+        ///     Add User
         /// </summary>
         /// <param name="command"></param>
         /// <returns></returns>
@@ -58,7 +64,7 @@ namespace SdProject.Apis.Controllers
         }
 
         /// <summary>
-        /// Update User
+        ///     Update User
         /// </summary>
         /// <param name="command"></param>
         /// <returns></returns>
@@ -68,7 +74,7 @@ namespace SdProject.Apis.Controllers
             var response = await _mediator.Send(command);
             return Ok(response);
         }
-        #endregion
 
+        #endregion
     }
 }

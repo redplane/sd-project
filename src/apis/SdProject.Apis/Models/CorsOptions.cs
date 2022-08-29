@@ -1,4 +1,4 @@
-﻿namespace SmartSensor.Cores.Models.Cors
+﻿namespace SdProject.Apis.Models
 {
     public class CorsOptions
     {

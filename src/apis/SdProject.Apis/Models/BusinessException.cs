@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Net;
 
-namespace SdProject.Commons.Models.Exceptions
+namespace SdProject.Apis.Models
 {
     public class BusinessException : Exception
     {

@@ -14,7 +14,11 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\SdProject.Cores\SdProject.Core.csproj" />
+        <ProjectReference Include="..\SdProject.Cores\SdProject.Cores.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Exceptions" />
     </ItemGroup>
 
 </Project>

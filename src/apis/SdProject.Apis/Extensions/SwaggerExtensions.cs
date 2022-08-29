@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using NSwag;
 using SdProject.Apis.Constants;
 using SdProject.Apis.Models.Swaggers;
-using NSwag;
 
 namespace SdProject.Apis.Extensions
 {
@@ -30,20 +30,21 @@ namespace SdProject.Apis.Extensions
 
                 options.GenerateEnumMappingDescription = apiDocument.GenerateEnumMappingDescription;
 
-                foreach (var securityDefinition in apiDocument.Securities)
-                {
-                    var accessTokenSecurityScheme = new OpenApiSecurityScheme();
-                    accessTokenSecurityScheme.AuthorizationUrl = securityDefinition.AuthorizationUrl;
-                    accessTokenSecurityScheme.Flow = securityDefinition.Flow;
-                    accessTokenSecurityScheme.Scheme = securityDefinition.Scheme;
-                    accessTokenSecurityScheme.Type = securityDefinition.Type;
-                    accessTokenSecurityScheme.In = securityDefinition.AccessTokenLocation;
-                    accessTokenSecurityScheme.Name = securityDefinition.AuthorizationHeaderKeyName;
-                    accessTokenSecurityScheme.Description = securityDefinition.Description;
+                if (apiDocument.Securities != null)
+                    foreach (var securityDefinition in apiDocument.Securities)
+                    {
+                        var accessTokenSecurityScheme = new OpenApiSecurityScheme();
+                        accessTokenSecurityScheme.AuthorizationUrl = securityDefinition.AuthorizationUrl;
+                        accessTokenSecurityScheme.Flow = securityDefinition.Flow;
+                        accessTokenSecurityScheme.Scheme = securityDefinition.Scheme;
+                        accessTokenSecurityScheme.Type = securityDefinition.Type;
+                        accessTokenSecurityScheme.In = securityDefinition.AccessTokenLocation;
+                        accessTokenSecurityScheme.Name = securityDefinition.AuthorizationHeaderKeyName;
+                        accessTokenSecurityScheme.Description = securityDefinition.Description;
 
-                    options.AddSecurity(securityDefinition.Name, securityDefinition.GlobalScopes,
-                        accessTokenSecurityScheme);
-                }
+                        options.AddSecurity(securityDefinition.Name, securityDefinition.GlobalScopes,
+                            accessTokenSecurityScheme);
+                    }
             });
         }
 

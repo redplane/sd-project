@@ -1,65 +1,47 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
-using SdProject.Businesses.Models.Users;
+using SdProject.Businesses.Cqrs.Commands.Books;
 using SdProject.Businesses.Services;
 using SdProject.Businesses.Services.Abstractions;
 using SdProject.Core.DbContexts;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.DependencyInjection;
-using System;
 
 namespace SdProject.Businesses.Tests.BookServiceTests
 {
     [TestFixture]
     public class AddBookAsyncTests
     {
-        private IServiceProvider _serviceProvider;
-        private int bookId;
-
         [SetUp]
         public void SetUp()
         {
             var services = new ServiceCollection();
             services.AddScoped<IBookService, BookService>();
-            services.AddScoped<SdPDbContext>();
+            services.AddScoped<SdProjectDbContext>();
 
-            services.AddDbContext<SdPDbContext>(options =>
-    options.UseInMemoryDatabase(databaseName: "SdProjectDB"));
+            services.AddDbContext<SdProjectDbContext>(options =>
+                options.UseInMemoryDatabase("SdProjectDB"));
 
-            services.AddScoped<SdPDbContext>();
+            services.AddScoped<SdProjectDbContext>();
             _serviceProvider = services.BuildServiceProvider();
         }
+
+        private IServiceProvider _serviceProvider;
 
         [Test]
         public async Task AddBookAsync_SendAddBookCommand_Returns_AddedBook()
         {
             var bookService = _serviceProvider.GetRequiredService<IBookService>();
-            var addBookCommand = new AddBookCommand() { Title = "Book-2808-1", Category = "Category", Description = "Description", Price = 155000 };
-            var result = await bookService.AddBookAsync(addBookCommand, default);
-            bookId = result.Id;
-
-            Assert.NotNull(result, "Add book failed");
-            Assert.AreEqual(result.Title, addBookCommand.Title);
-            Assert.AreEqual(result.Category, addBookCommand.Category);
-            Assert.AreEqual(result.Description, addBookCommand.Description);
-            Assert.AreEqual(result.Price, addBookCommand.Price);
-        }
-
-        [Test]
-        public async Task UpdateBookAsync_SendUpdateBookCommand_Returns_UpdatedBook()
-        {
-            var bookService = _serviceProvider.GetRequiredService<IBookService>();
-            var updateBookCommand = new UpdateBookCommand() { Id = bookId, Title = "Book-2808-2", Category = "Category-2", Description = "Description-2", Price = 165000 };
-            var result = await bookService.UpdateBookAsync(updateBookCommand, default);
-
-            Assert.NotNull(result, "Update book failed");
-            Assert.AreEqual(result.Id, updateBookCommand.Id);
-            Assert.AreEqual(result.Title, updateBookCommand.Title);
-            Assert.AreEqual(result.Category, updateBookCommand.Category);
-            Assert.AreEqual(result.Description, updateBookCommand.Description);
-            Assert.AreEqual(result.Price, updateBookCommand.Price);
+            var addBookCommand = new AddBookCommand
+                { Title = "Book-2808-1", Category = "Category", Description = "Description", Price = 155000 };
+            var addedBook = await bookService.AddAsync(addBookCommand, default);
+            
+            Assert.NotNull(addedBook, "Add book failed");
+            Assert.AreEqual(addedBook.Title, addBookCommand.Title);
+            Assert.AreEqual(addedBook.Category, addBookCommand.Category);
+            Assert.AreEqual(addedBook.Description, addBookCommand.Description);
+            Assert.AreEqual(addedBook.Price, addBookCommand.Price);
         }
     }
 }

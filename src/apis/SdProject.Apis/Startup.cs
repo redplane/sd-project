@@ -1,5 +1,5 @@
+using System.Reflection;
 using FluentValidation;
-using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -10,11 +10,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using SdProject.Apis.Extensions;
 using SdProject.Apis.Models.Swaggers;
-using SdProject.Apis.Providers.Implementations;
-using SdProject.Businesses.Providers.Abstractions;
-using SdProject.Commons.Extensions;
-using SdProject.Providers.Implementations;
-using System.Reflection;
+using SdProject.Businesses.Providers;
 
 namespace SdProject.Apis
 {
@@ -49,17 +45,11 @@ namespace SdProject.Apis
             // Business services registration.
             services.AddBusinessServices(Configuration);
 
-            // Cors
-            services.AddApplicationCors(Configuration);
-
             services.AddAuthorization();
             services.AddScoped<IJsonSerializer, CamelCaseJsonSerializer>();
             services.AddScoped<IJsonSerializer, SnakeCaseJsonSerializer>();
             services.AddValidatorsFromAssembly(typeof(Startup).GetTypeInfo().Assembly);
-            services.AddControllers(options =>
-            {
-                options.Filters.AddApplicationExceptionFilters();
-            })
+            services.AddControllers(options => { options.Filters.AddApplicationExceptionFilters(); })
                 .AddNewtonsoftJson(options =>
                 {
                     options.SerializerSettings.Converters.AddApplicationJsonConverters();
@@ -80,7 +70,6 @@ namespace SdProject.Apis
 
             // Authentication & authorization.
             app.UseRouting();
-            app.UseApplicationCors();
             app.UseAuthentication();
             app.UseAuthorization();
 

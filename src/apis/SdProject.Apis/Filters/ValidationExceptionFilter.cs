@@ -1,12 +1,11 @@
 ﻿using System.Linq;
 using System.Net;
-using SdProject.Commons.Models.HttpResponses;
 using FluentValidation;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using SdProject.Apis.Models;
 
-namespace SdProject.Commons.ExceptionFilters
+namespace SdProject.Apis.Filters
 {
     public class ValidationExceptionFilter : IExceptionFilter
     {
@@ -24,7 +23,7 @@ namespace SdProject.Commons.ExceptionFilters
             var badRequestResponse = new BadRequestResponse(messages);
             context.Result = new ObjectResult(badRequestResponse)
             {
-                StatusCode = (int) HttpStatusCode.BadRequest
+                StatusCode = (int)HttpStatusCode.BadRequest
             };
             context.ExceptionHandled = true;
         }

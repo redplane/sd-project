@@ -1,4 +1,4 @@
-﻿namespace SdProject.Commons.Models.HttpResponses
+﻿namespace SdProject.Apis.Models
 {
     public class BadRequestResponse : HttpResponse
     {

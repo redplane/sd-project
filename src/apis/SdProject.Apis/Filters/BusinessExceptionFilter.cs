@@ -1,9 +1,8 @@
-﻿using SdProject.Commons.Models.Exceptions;
-using SdProject.Commons.Models.HttpResponses;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using SdProject.Apis.Models;
 
-namespace SdProject.Commons.ExceptionFilters
+namespace SdProject.Apis.Filters
 {
     public class BusinessExceptionFilter : IExceptionFilter
     {
@@ -24,7 +23,7 @@ namespace SdProject.Commons.ExceptionFilters
             httpFailureResponse.AdditionalData = businessException.AdditionalData;
             context.Result = new ObjectResult(httpFailureResponse)
             {
-                StatusCode = (int) businessException.StatusCode
+                StatusCode = (int)businessException.StatusCode
             };
 
             context.ExceptionHandled = true;

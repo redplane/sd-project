@@ -9,12 +9,14 @@ namespace SdProject.Apis.Extensions
     {
         #region Methods
 
-        public static IServiceCollection AddApplicationDatabase(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddApplicationDatabase(this IServiceCollection services,
+            IConfiguration configuration)
         {
-            services.AddDbContext<SdPDbContext>(options =>
-    options.UseSqlServer(configuration.GetConnectionString("Default")));
+            var connectionString = configuration.GetConnectionString("Default");
+            services.AddDbContext<SdProjectDbContext>(options =>
+                options.UseSqlServer(connectionString));
 
-            services.AddScoped<SdPDbContext>();
+            services.AddScoped<SdProjectDbContext>();
             return services;
         }
 

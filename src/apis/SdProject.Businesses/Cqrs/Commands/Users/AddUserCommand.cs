@@ -1,11 +1,8 @@
 using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using Core.Entities;
 using MediatR;
-using Newtonsoft.Json;
+using SdProject.Core.Entities;
 
-namespace SdProject.Businesses.Models.Users
+namespace SdProject.Businesses.Cqrs.Commands.Users
 {
     public class AddUserCommand : IRequest<User>
     {
@@ -13,8 +10,5 @@ namespace SdProject.Businesses.Models.Users
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public DateTime Birthdate { get; set; }
-        public AddUserCommand()
-        {
-        }
     }
 }

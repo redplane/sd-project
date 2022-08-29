@@ -1,143 +1,112 @@
-﻿using SdProject.Businesses.Services.Abstractions;
-using System;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using SdProject.Businesses.Models.Users;
-using SdProject.Core.DbContexts;
-using Core.Entities;
-using System.Collections.Generic;
-using System.Linq;
-using SdProject.Businesses.Exception;
 using Microsoft.EntityFrameworkCore;
+using SdProject.Businesses.Cqrs.Commands.Users;
+using SdProject.Businesses.Cqrs.Queries.Users;
+using SdProject.Businesses.Models.Exceptions;
+using SdProject.Businesses.Services.Abstractions;
+using SdProject.Core.DbContexts;
+using SdProject.Core.Entities;
 
 namespace SdProject.Businesses.Services
 {
     public class UserService : IUserService
     {
         #region Properties
-        SdPDbContext _context;
+
+        private readonly SdProjectDbContext _context;
+
         #endregion
 
         #region Constructor
-        public UserService(SdPDbContext context)
+
+        public UserService(SdProjectDbContext context)
         {
             _context = context;
         }
+
         #endregion
 
         #region Method
-        public async Task<IEnumerable<User>> SearchUserAsync(SearchUserQuery request, CancellationToken cancellation)
+
+        public async Task<IEnumerable<User>> SearchAsync(SearchUserQuery request, CancellationToken cancellationToken)
         {
-            var users = _context.User.AsQueryable();
+            var users = _context.Users.AsQueryable();
             if (request != null && !string.IsNullOrWhiteSpace(request.FirstName))
-            {
                 users = users.Where(x => x.FirstName.Contains(request.FirstName));
-            }
 
             if (request != null && !string.IsNullOrWhiteSpace(request.LastName))
-            {
                 users = users.Where(x => x.FirstName.Contains(request.LastName));
-            }
-            return users.ToList();
+            return await users.ToListAsync(cancellationToken);
         }
 
-        public async Task<IEnumerable<User>> FindUserByBookAsync(SearchUserByBookQuery request, CancellationToken cancellation)
+        public async Task<IEnumerable<Book>> SearchUserBooksAsync(SearchUserBooksQuery request,
+            CancellationToken cancellationToken)
         {
-            return (from ub in _context.UserBookEntities
-                    join u in _context.User on ub.BookId equals u.id
-                    where ub.BookId == request.BookId
-                    select new User
-                    {
-                        id = u.id,
-                        FirstName = u.FirstName,
-                        LastName = u.LastName,
-                        Birthdate = u.Birthdate
-                    }).ToList();
+            var userBooks = _context.UserBooks.AsQueryable();
+            var books = _context.Books.AsQueryable();
+
+            userBooks = userBooks.Where(x => x.UserId == request.UserId);
+            if (request.HaveRead != null)
+                userBooks = userBooks.Where(x => x.HaveRead == request.HaveRead.Value);
+
+            if (request.BookId != null)
+                books = books.Where(x => x.Id == request.BookId);
+            
+            return await (from ub in userBooks
+                join b in books on ub.BookId equals b.Id
+                select b).ToListAsync(cancellationToken);
         }
 
-        public async Task<User> AddUserAsync(AddUserCommand request, CancellationToken cancellation)
+        public async Task<User> AddAsync(AddUserCommand request, CancellationToken cancellationToken)
         {
-            User entity = new User { FirstName = request.FirstName, LastName = request.LastName, Birthdate = request.Birthdate };
-            var user = _context.User.Add(entity);
-            await _context.SaveChangesAsync();
+            var entity = new User
+                { FirstName = request.FirstName, LastName = request.LastName, Birthdate = request.Birthdate };
+            var user = _context.Users.Add(entity);
+            await _context.SaveChangesAsync(cancellationToken);
             return user.Entity;
         }
 
-        public async Task<User> UpdateUserAsync(UpdateUserCommand request, CancellationToken cancellation)
+        public async Task<User> UpdateAsync(UpdateUserCommand request, CancellationToken cancellationToken)
         {
-            var checkExists = _context.User.AsNoTracking().FirstOrDefault(x => x.id == request.Id);
-            if (checkExists == null)
+            var doesUserExist = _context.Users.AsNoTracking().Any(x => x.Id == request.Id);
+            if (!doesUserExist) 
+                throw new UserNotFoundException();
+            
+            var entity = new User
             {
-                throw new EntityNotFoundException(request.Id.ToString());
-            }
-            User entity = new User { id = request.Id, FirstName = request.FirstName, LastName = request.LastName, Birthdate = request.Birthdate };
-            var user = _context.User.Update(entity);
-            await _context.SaveChangesAsync();
+                Id = request.Id, FirstName = request.FirstName, LastName = request.LastName,
+                Birthdate = request.Birthdate
+            };
+            var user = _context.Users.Update(entity);
+            await _context.SaveChangesAsync(cancellationToken);
             return user.Entity;
         }
 
-        public async Task<UserBook> AddUserBookAsync(AddUserBookCommand request, CancellationToken cancellation)
+        public async Task<UserBook> AddUserBookAsync(AddUserBookCommand request, CancellationToken cancellationToken)
         {
-            if (!isCheckExists(request.UserId, request.BookId))
-            {
-                throw new EntityNotFoundException("");
-            }
-
-            if (_context.UserBookEntities.Where(x => x.UserId == request.UserId && x.BookId == request.BookId).Any())
-            {
-                throw new EntityDuplicationException("");
-            }
-            UserBook entity = new UserBook { UserId = request.UserId, BookId = request.BookId };
-            var userBook = _context.UserBookEntities.Add(entity);
-            await _context.SaveChangesAsync();
+            var entity = new UserBook { UserId = request.UserId, BookId = request.BookId };
+            var userBook = _context.UserBooks.Add(entity);
+            await _context.SaveChangesAsync(cancellationToken);
             return userBook.Entity;
         }
 
-        public async Task<UserBook> UpdateUserBookAsync(UpdateUserBookCommand request, CancellationToken cancellation)
+        public async Task<UserBook> UpdateUserBookAsync(UpdateUserBookCommand request,
+            CancellationToken cancellationToken)
         {
-            if (!isCheckExists(request.UserId, request.BookId))
-            {
-                throw new EntityNotFoundException("");
-            }
-            UserBook entity = new UserBook { Id = request.Id, UserId = request.UserId, BookId = request.BookId };
-            var userBook = _context.UserBookEntities.Update(entity);
-            await _context.SaveChangesAsync();
+            var entity = new UserBook { Id = request.Id, UserId = request.UserId, BookId = request.BookId };
+            var userBook = _context.UserBooks.Update(entity);
+            await _context.SaveChangesAsync(cancellationToken);
             return userBook.Entity;
         }
 
-        public async Task<UserBook> UpdateHaveReadAsync(UpdateHaveReadCommand request, CancellationToken cancellation)
+        public virtual async Task<User> GetByIdAsync(int id, CancellationToken cancellationToken = default)
         {
-            if (!isCheckExists(request.UserId, request.BookId))
-            {
-                throw new EntityNotFoundException("");
-            }
-
-            var entity = await _context.UserBookEntities.AsNoTracking().FirstOrDefaultAsync(x => x.UserId == request.UserId && x.BookId == request.BookId);
-            if (entity == null)
-            {
-                throw new EntityNotFoundException("");
-            }
-
-            entity.HaveRead = request.HaveRead;
-            var userBook = _context.UserBookEntities.Update(entity);
-            await _context.SaveChangesAsync();
-            return userBook.Entity;
+            return await _context.Users.AsQueryable().FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
         }
 
-        private bool isCheckExists(int UserId, int BookId)
-        {
-            var checkExistsUser = _context.User.AsNoTracking().FirstOrDefault(x => x.id == UserId);
-
-            if (checkExistsUser == null)
-                return false;
-
-            var checkExistsBook = _context.Book.AsNoTracking().FirstOrDefault(x => x.Id == BookId);
-
-            if (checkExistsBook == null)
-                return false;
-
-            return true;
-        }
         #endregion
     }
 }

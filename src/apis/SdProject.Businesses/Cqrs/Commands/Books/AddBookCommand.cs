@@ -1,11 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using Core.Entities;
 using MediatR;
-using Newtonsoft.Json;
+using SdProject.Core.Entities;
 
-namespace SdProject.Businesses.Models.Users
+namespace SdProject.Businesses.Cqrs.Commands.Books
 {
     public class AddBookCommand : IRequest<Book>
     {
@@ -13,8 +9,5 @@ namespace SdProject.Businesses.Models.Users
         public string Category { get; set; }
         public string Description { get; set; }
         public double Price { get; set; }
-        public AddBookCommand()
-        {
-        }
     }
 }

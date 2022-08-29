@@ -1,4 +1,4 @@
-﻿namespace SdProject.Businesses.Providers.Abstractions
+﻿namespace SdProject.Businesses.Providers
 {
     public interface IJsonSerializer
     {

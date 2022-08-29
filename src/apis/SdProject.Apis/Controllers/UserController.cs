@@ -1,28 +1,34 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using MediatR;
-using SdProject.Businesses.Models.Users;
+using Microsoft.AspNetCore.Mvc;
+using SdProject.Businesses.Cqrs.Commands.Users;
+using SdProject.Businesses.Cqrs.Queries.Users;
 
 namespace SdProject.Apis.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/user")]
     [ApiController]
     public class UserController : ControllerBase
     {
         #region Properties
+
         private readonly IMediator _mediator;
+
         #endregion
 
         #region Constructor
+
         public UserController(IMediator mediator)
         {
             _mediator = mediator;
         }
+
         #endregion
 
         #region Method
+
         /// <summary>
-        /// User Search 
+        ///     User Search
         /// </summary>
         /// <param name="command"></param>
         /// <returns></returns>
@@ -34,19 +40,19 @@ namespace SdProject.Apis.Controllers
         }
 
         /// <summary>
-        /// User Search 
+        ///     User Search
         /// </summary>
         /// <param name="command"></param>
         /// <returns></returns>
-        [HttpPost("find")]
-        public async Task<IActionResult> FindUserByBookAsync([FromBody] SearchUserByBookQuery command)
+        [HttpPost("search-user-books")]
+        public async Task<IActionResult> FindUserByBookAsync([FromBody] SearchUserBooksQuery command)
         {
             var response = await _mediator.Send(command);
             return Ok(response);
         }
 
         /// <summary>
-        /// Add User
+        ///     Add User
         /// </summary>
         /// <param name="command"></param>
         /// <returns></returns>
@@ -58,7 +64,7 @@ namespace SdProject.Apis.Controllers
         }
 
         /// <summary>
-        /// Update User
+        ///     Update User
         /// </summary>
         /// <param name="command"></param>
         /// <returns></returns>
@@ -70,7 +76,7 @@ namespace SdProject.Apis.Controllers
         }
 
         /// <summary>
-        /// favorite
+        ///     favorite
         /// </summary>
         /// <param name="command"></param>
         /// <returns></returns>
@@ -82,7 +88,7 @@ namespace SdProject.Apis.Controllers
         }
 
         /// <summary>
-        /// favorite
+        ///     favorite
         /// </summary>
         /// <param name="command"></param>
         /// <returns></returns>
@@ -94,16 +100,17 @@ namespace SdProject.Apis.Controllers
         }
 
         /// <summary>
-        /// favorite
+        ///     favorite
         /// </summary>
         /// <param name="command"></param>
         /// <returns></returns>
         [HttpPut("mark-as-read")]
-        public async Task<IActionResult> UpdateHaveReadAsync([FromBody] UpdateHaveReadCommand command)
+        public async Task<IActionResult> UpdateHaveReadAsync([FromBody] MarkBookAsReadCommand command)
         {
             var response = await _mediator.Send(command);
             return Ok(response);
         }
+
         #endregion
     }
 }

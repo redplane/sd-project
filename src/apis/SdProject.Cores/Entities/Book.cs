@@ -1,7 +1,6 @@
-using System;
 using System.Collections.Generic;
 
-namespace Core.Entities
+namespace SdProject.Core.Entities
 {
     public class Book
     {
@@ -11,8 +10,5 @@ namespace Core.Entities
         public string Description { get; set; }
         public double Price { get; set; }
         public ICollection<UserBook> UserBooks { get; set; }
-        public Book()
-        {
-        }
     }
 }

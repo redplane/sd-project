@@ -1,6 +1,6 @@
-using Core.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using SdProject.Core.Entities;
 
 namespace SdProject.Core.Configurations
 {
@@ -8,11 +8,12 @@ namespace SdProject.Core.Configurations
     {
         public void Configure(EntityTypeBuilder<UserBook> builder)
         {
-            builder.Property(x => x.Id).HasColumnName("Id");
-            builder.Property(x => x.UserId).HasColumnName("UserId");
-            builder.Property(x => x.BookId).HasColumnName("BookId");
-            builder.Property(x => x.HaveRead).HasColumnName("HaveRead");
+            builder.Property(x => x.Id);
+            builder.Property(x => x.UserId);
+            builder.Property(x => x.BookId);
+            builder.Property(x => x.HaveRead);
 
+            builder.HasIndex(x => new { x.UserId, x.BookId }).IsUnique();
             builder.HasOne(x => x.User).WithMany(x => x.UserBooks).HasForeignKey(x => x.UserId);
             builder.HasOne(x => x.Book).WithMany(x => x.UserBooks).HasForeignKey(x => x.UserId);
         }

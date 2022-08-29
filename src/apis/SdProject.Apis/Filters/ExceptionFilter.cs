@@ -1,9 +1,9 @@
 ﻿using System.Net;
-using SdProject.Commons.Models.HttpResponses;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using SdProject.Apis.Models;
 
-namespace SdProject.Commons.ExceptionFilters
+namespace SdProject.Apis.Filters
 {
     public class ExceptionFilter : IExceptionFilter
     {
@@ -17,7 +17,7 @@ namespace SdProject.Commons.ExceptionFilters
             var httpFailureResponse = new BusinessExceptionResponse("internal_server_error", context.Exception.Message);
             context.Result = new ObjectResult(httpFailureResponse)
             {
-                StatusCode = (int) HttpStatusCode.InternalServerError
+                StatusCode = (int)HttpStatusCode.InternalServerError
             };
         }
 

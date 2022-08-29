@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
-
-namespace Core.Entities
+namespace SdProject.Core.Entities
 {
     public class UserBook
     {
@@ -10,9 +7,6 @@ namespace Core.Entities
         public int BookId { get; set; }
         public bool HaveRead { get; set; }
         public User User { get; set; }
-        public Book  Book { get; set; }
-        public UserBook()
-        {
-        }
+        public Book Book { get; set; }
     }
 }

@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using Core.Entities;
+﻿using System.Collections.Generic;
 using MediatR;
+using SdProject.Core.Entities;
 
-namespace SdProject.Businesses.Models.Users
+namespace SdProject.Businesses.Cqrs.Queries.Users
 {
-    public class SearchUserQuery : IRequest<IEnumerable<User>> 
+    public class SearchUserQuery : IRequest<IEnumerable<User>>
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
