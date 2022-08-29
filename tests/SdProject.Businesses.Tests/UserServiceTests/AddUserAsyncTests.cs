@@ -102,5 +102,18 @@ namespace SdProject.Businesses.Tests.UserServiceTests
             Assert.AreEqual(result.UserId, updateUserBookCommand.UserId);
             Assert.AreEqual(result.BookId, updateUserBookCommand.BookId);
         }
+
+        [Test]
+        public async Task UpdateHaveReadAsync_SendUpdateHaveReadCommand_Returns_UpdatedHaveRead()
+        {
+            var userService = _serviceProvider.GetRequiredService<IUserService>();
+            var updateHaveReadCommand = new UpdateHaveReadCommand() { UserId = userId, BookId = bookId, HaveRead = true };
+            var result = await userService.UpdateHaveReadAsync(updateHaveReadCommand, default);
+
+            Assert.NotNull(result, "Update user book failed");
+            Assert.AreEqual(result.UserId, updateHaveReadCommand.UserId);
+            Assert.AreEqual(result.BookId, updateHaveReadCommand.BookId);
+            Assert.AreEqual(result.HaveRead, updateHaveReadCommand.HaveRead);
+        }
     }
 }

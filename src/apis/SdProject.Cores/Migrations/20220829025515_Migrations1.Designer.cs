@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SdProject.Core.DbContexts;
 
 namespace SdProject.Core.Migrations
 {
     [DbContext(typeof(SdPDbContext))]
-    partial class SdPDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220829025515_Migrations1")]
+    partial class Migrations1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

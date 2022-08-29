@@ -92,6 +92,18 @@ namespace SdProject.Apis.Controllers
             var response = await _mediator.Send(command);
             return Ok(response);
         }
+
+        /// <summary>
+        /// favorite
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        [HttpPut("mark-as-read")]
+        public async Task<IActionResult> UpdateHaveReadAsync([FromBody] UpdateHaveReadCommand command)
+        {
+            var response = await _mediator.Send(command);
+            return Ok(response);
+        }
         #endregion
     }
 }
