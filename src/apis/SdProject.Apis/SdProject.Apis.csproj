@@ -51,10 +51,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Events\MessageHandlers" />
-    </ItemGroup>
-
-    <ItemGroup>
         <ProjectReference Include="..\SdProject.Businesses\SdProject.Businesses.csproj" />
     </ItemGroup>
 

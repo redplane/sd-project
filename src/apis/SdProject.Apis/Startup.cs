@@ -52,8 +52,6 @@ namespace SdProject.Apis
             services.AddControllers(options => { options.Filters.AddApplicationExceptionFilters(); })
                 .AddNewtonsoftJson(options =>
                 {
-                    options.SerializerSettings.Converters.AddApplicationJsonConverters();
-
                     var camelCasePropertyNamesContractResolver = new CamelCasePropertyNamesContractResolver();
                     options.SerializerSettings.ContractResolver = camelCasePropertyNamesContractResolver;
                     options.SerializerSettings.ConstructorHandling =
